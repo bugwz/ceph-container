@@ -44,6 +44,7 @@ OSD_FLAVOR ?= "default"
 include maint-lib/makelib.mk
 
 # All flavor options that can be passed to FLAVORS
+# 从这里可以看奥 quincy 也只是在 centos8 的环境下打包的镜像
 ALL_BUILDABLE_FLAVORS := \
 	quincy,centos,8
 
