@@ -44,6 +44,7 @@ OSD_FLAVOR ?= "default"
 include maint-lib/makelib.mk
 
 # All flavor options that can be passed to FLAVORS
+# 从这里可以看出，这里只支持 pacific 在 centos8 的环境打包
 ALL_BUILDABLE_FLAVORS := \
 	pacific,centos,8
 
@@ -56,7 +57,12 @@ stage.%:
 
 # Make daemon-base.% and/or daemon.% target based on IMAGES_TO_BUILD setting
 #do.image.%: | stage.% $(foreach i, $(IMAGES_TO_BUILD), $(i).% ) ;
+# 这行代码定义了一个模式规则 do.image.%，它依赖于 stage.% 目标。
+# 这意味着在构建 do.image.% 之前，必须先完成 stage.% 目标。
 do.image.%: stage.%
+  # 设置必要的环境变量
+  # 切换到对应的镜像构建目录
+  # 执行当前的Make命令目标
 	$(foreach i, $(IMAGES_TO_BUILD), \
 		$(call set_env_vars,$*); $(MAKE) $(call set_env_vars,$*) -C $$STAGING_DIR/$(i) \
 			$(call set_env_vars,$*) $(MAKECMDGOALS)$(\n))
